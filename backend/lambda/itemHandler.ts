@@ -90,35 +90,33 @@ export const handler = async (event: APIGatewayEvent) => {
 
           //move this to util file and return params
           //make a function top return params. iterate over all the keys and create this params expr;
-          if (body.name) {
-            for (const property in body) {
-              if (property == "id") continue;
-              updateExpression += ` #${property} = :${property} ,`;
-              expressionAttributeNames["#" + property] = property;
-              expressionAttributeValues[":" + property] = body[property];
-            }
-
-            updateExpression = updateExpression.slice(0, -1);
-
-            const params = {
-              TableName: "ItemDB",
-              Key: {
-                id: body.id,
-              },
-              ConditionExpression: "attribute_exists(id)",
-              UpdateExpression: updateExpression,
-              ExpressionAttributeNames: expressionAttributeNames,
-              ExpressionAttributeValues: expressionAttributeValues,
-            };
-
-            console.log(
-              "Update parameter: ",
-              JSON.stringify(params, undefined, 2)
-            );
-
-            const uresult = await dynamo.update(params).promise();
-            console.log("Update Result: ", uresult);
+          for (const property in body) {
+            if (property == "id") continue;
+            updateExpression += ` #${property} = :${property} ,`;
+            expressionAttributeNames["#" + property] = property;
+            expressionAttributeValues[":" + property] = body[property];
           }
+
+          updateExpression = updateExpression.slice(0, -1);
+
+          const params = {
+            TableName: "ItemDB",
+            Key: {
+              id: body.id,
+            },
+            ConditionExpression: "attribute_exists(id)",
+            UpdateExpression: updateExpression,
+            ExpressionAttributeNames: expressionAttributeNames,
+            ExpressionAttributeValues: expressionAttributeValues,
+          };
+
+          console.log(
+            "Update parameter: ",
+            JSON.stringify(params, undefined, 2)
+          );
+
+          const uresult = await dynamo.update(params).promise();
+          console.log("Update Result: ", uresult);
         }
       }
       case "DELETE": {
