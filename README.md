@@ -3,7 +3,7 @@
 This is a sample CDK application using Lambda and dynamoDB.
 
 Use this postman collection to hit the deployed API endpoints
-https://ov435wnii4.execute-api.ap-south-1.amazonaws.com/prod/items/updateItem
+https://www.getpostman.com/collections/62df81e2f3015e4d45f4
 
 OR
 
